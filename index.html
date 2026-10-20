@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>MAIOO'S BIRTHDAY</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Great+Vibes&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script>
+
+    <!-- Custom CSS Styles & SVG Textures -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="relative min-h-screen selection:bg-accent-burgundy selection:text-text-ivory">
+
+    <!-- Film Grain Canvas Overlay -->
+    <div class="film-grain"></div>
+
+    <!-- BACKGROUND MUSIC: SPINNING DISC ONLY -->
+    <div id="music-controller"
+        class="fixed bottom-6 right-6 z-50 flex items-center justify-center bg-base-charcoal/90 border border-silver-antique/20 backdrop-blur-md p-2.5 rounded-full shadow-2xl pointer-events-none">
+        <div id="vinyl-icon"
+            class="w-9 h-9 rounded-full bg-base-dark border-2 border-copper-mark/60 flex items-center justify-center transition-transform duration-500">
+            <div class="w-3 h-3 rounded-full bg-accent-burgundy flex items-center justify-center">
+                <div class="w-1 h-1 rounded-full bg-text-ivory"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 0: COUNTDOWN GATE (LOCK SCREEN) -->
+    <section id="gate-section"
+        class="fixed inset-0 z-40 bg-base-dark flex flex-col items-center justify-center p-6 text-center transition-opacity duration-1000">
+        <div class="max-w-2xl w-full mx-auto flex flex-col items-center">
+        
+
+            <!-- Title -->
+            <h1 class="font-script text-5xl sm:text-7xl text-text-ivory mb-2 drop-shadow-lg">Happy Birthday, MAIOO</h1>
+            <p class="font-serif italic text-copper-mark text-lg sm:text-xl mb-10 max-w-md">A cinematic memory archive
+                unlocking on October 20, 2026 at Cairo midnight.</p>
+
+            <!-- Countdown Numerals Container -->
+            <div class="grid grid-cols-4 gap-3 sm:gap-6 w-full max-w-lg mb-12">
+                <div
+                    class="bg-base-charcoal border border-silver-antique/20 rounded-2xl p-3 sm:p-4 flex flex-col items-center shadow-lg">
+                    <span id="cnt-days"
+                        class="font-sans text-3xl sm:text-5xl font-light text-text-ivory tracking-tight">00</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-widest text-silver-antique mt-1">Days</span>
+                </div>
+                <div
+                    class="bg-base-charcoal border border-silver-antique/20 rounded-2xl p-3 sm:p-4 flex flex-col items-center shadow-lg">
+                    <span id="cnt-hours"
+                        class="font-sans text-3xl sm:text-5xl font-light text-text-ivory tracking-tight">00</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-widest text-silver-antique mt-1">Hours</span>
+                </div>
+                <div
+                    class="bg-base-charcoal border border-silver-antique/20 rounded-2xl p-3 sm:p-4 flex flex-col items-center shadow-lg">
+                    <span id="cnt-minutes"
+                        class="font-sans text-3xl sm:text-5xl font-light text-text-ivory tracking-tight">00</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-widest text-silver-antique mt-1">Mins</span>
+                </div>
+                <div
+                    class="bg-base-charcoal border border-silver-antique/20 rounded-2xl p-3 sm:p-4 flex flex-col items-center shadow-lg">
+                    <span id="cnt-seconds"
+                        class="font-sans text-3xl sm:text-5xl font-light text-copper-mark tracking-tight">00</span>
+                    <span class="text-[10px] sm:text-xs uppercase tracking-widest text-silver-antique mt-1">Secs</span>
+                </div>
+            </div>
+
+            <!-- Lock Controls & Preview Override Button -->
+            <div class="flex flex-col sm:flex-row items-center gap-4">
+                <button id="btn-unlock-preview"
+                    class="group relative px-8 py-3.5 rounded-full bg-accent-burgundy hover:bg-accent-burgundy/80 border border-copper-mark/60 text-text-ivory font-serif text-lg tracking-wide transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center gap-3">
+                    <span>Enjoy Maio</span>
+                    <svg class="w-4 h-4 text-copper-mark transition-transform group-hover:translate-x-1" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- UNLOCK SHUTTER OVERLAY ANIMATION -->
+    <div id="shutter-overlay"
+        class="fixed inset-0 z-50 pointer-events-none hidden bg-black flex items-center justify-center">
+        <!-- Skip button -->
+        <button id="btn-skip-shutter"
+            class="pointer-events-auto absolute top-6 left-6 z-50 text-xs tracking-widest font-sans uppercase text-silver-antique border border-silver-antique/30 rounded-full px-4 py-1.5 hover:text-text-ivory hover:border-copper-mark transition-all">Skip
+            Intro &rarr;</button>
+
+        <!-- Animated Film Strip sliding during shutter -->
+        <div id="shutter-strip"
+            class="w-full flex items-center justify-center gap-6 transform -rotate-3 transition-transform duration-1000">
+            <!-- Dynamic film frames moving across screen -->
+        </div>
+
+        <!-- Calligraphic Headline Reveal overlay -->
+        <div id="shutter-headline"
+            class="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-1000">
+            <h2 class="font-script text-6xl sm:text-8xl text-text-ivory drop-shadow-2xl text-center px-4">Happy
+                Birthday, MAIOO.</h2>
+        </div>
+    </div>
+
+    <!-- MAIN ARCHIVE CONTENT WRAPPER -->
+    <main id="main-archive" class="relative z-10 opacity-0 transition-opacity duration-1000">
+
+        <!-- SECTION 1: OPENING FRAME -->
+        <section id="opening-frame-section"
+            class="min-h-screen flex flex-col items-center justify-center px-4 py-20 relative">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs uppercase tracking-[0.3em] text-copper-mark font-medium"> Oct 20,
+                    2005 . WHEN THE QUEEN WAS BORN</span>
+                <h1 class="font-script text-6xl sm:text-8xl md:text-9xl text-text-ivory mt-2 mb-4 leading-tight">Happy
+                    Birthday, MAIOO.</h1>
+                <p class="font-serif text-lg sm:text-2xl text-text-aged italic font-light">"A film reel of unforgettable
+                    memories, written in quiet elegance."</p>
+            </div>
+
+            <!-- Hero Photo in 35mm Frame -->
+            <div class="relative max-w-xl w-full mx-auto group cursor-pointer" onclick="openLightbox('frame-hero')">
+                <div
+                    class="bg-base-charcoal p-4 sm:p-6 rounded-2xl border border-accent-burgundy/60 shadow-2xl relative">
+                    <!-- 35mm Film Edge Branding -->
+                    <div
+                        class="flex justify-between items-center text-[10px] tracking-widest text-silver-antique uppercase font-sans mb-3 border-b border-silver-antique/10 pb-2">
+                        <span>KODAK 400TM</span>
+                        <span>MAIOO · 2026</span>
+                        <span>FRAME 01</span>
+                    </div>
+
+                    <!-- Photo Container -->
+                    <div class="relative aspect-[4/3] rounded-lg overflow-hidden bg-base-dark">
+                        <img id="img-hero" src="" alt="MAIOO Hero Portrait"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-base-dark/80 via-transparent to-transparent">
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4 text-left">
+                            <span class="text-xs font-serif italic text-copper-mark">Opening Frame</span>
+                            <p class="text-sm font-sans text-text-ivory font-light">The quiet radiance of a brand new
+                                chapter.</p>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Frame Details -->
+                    <div
+                        class="flex justify-between items-center text-[9px] text-silver-antique font-sans mt-3 pt-2 border-t border-silver-antique/10">
+                        <span>ISO 400</span>
+                        <span>35mm FILM</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Down Arrow Indicator -->
+            <div class="mt-16 text-center animate-bounce">
+                <a href="#little-girl-section"
+                    class="text-silver-antique hover:text-copper-mark transition-colors inline-block p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- EDITORIAL DIVIDER -->
+        <div class="max-w-4xl mx-auto my-8 px-6 flex items-center gap-4">
+            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-silver-antique/20 to-transparent"></div>
+            <span class="text-copper-mark font-serif italic text-sm">Chapter I</span>
+            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-silver-antique/20 to-transparent"></div>
+        </div>
+
+        <!-- SECTION 2: THE LITTLE GIRL SHE ONCE WAS (HORIZONTAL FILM STRIP) -->
+        <section id="little-girl-section" class="py-20 px-4 max-w-7xl mx-auto">
+            <div class="mb-12 text-center sm:text-left sm:pl-8">
+                <h2 class="font-serif text-3xl sm:text-5xl text-text-ivory">You Were Always Something Special</h2>
+                <p class="font-sans text-xs sm:text-sm text-silver-antique mt-2 uppercase tracking-widest">Horizontal
+                    Film Reel · Swipe or Scroll horizontally</p>
+            </div>
+
+            <!-- Horizontal Film Strip Container -->
+            <div id="film-strip-scroll" class="flex gap-6 overflow-x-auto pb-8 pt-4 px-4 sm:px-8 snap-x snap-mandatory">
+                <!-- Javascript will populate 4-5 film cards -->
+            </div>
+        </section>
+
+        <!-- EDITORIAL DIVIDER -->
+        <div class="max-w-4xl mx-auto my-12 px-6 flex items-center gap-4">
+            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-silver-antique/20 to-transparent"></div>
+            <span class="text-copper-mark font-serif italic text-sm">Chapter II</span>
+            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-silver-antique/20 to-transparent"></div>
+        </div>
+
+        <!-- SECTION 3: GROWING UP (MIXED LAYOUTS: POLAROIDS & COLLAGE) -->
+        <section id="growing-up-section" class="py-20 px-4 max-w-6xl mx-auto">
+            <div class="text-center mb-16 max-w-2xl mx-auto">
+                <h2 class="font-serif text-4xl sm:text-6xl text-text-ivory">Look How Beautifully You Grew</h2>
+                <p class="font-serif text-lg text-copper-mark italic mt-3">"Every year added a new shade of warmth to
+                    your story."</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <!-- Offset Polaroid with Tape -->
+                <div class="md:col-span-5 relative group cursor-pointer" onclick="openLightbox('frame-growing-1')">
+                    <div
+                        class="absolute -top-3 left-1/2 -translate-x-1/2 w-28 h-6 polaroid-tape z-10 transform -rotate-2">
+                    </div>
+                    <div
+                        class="bg-text-aged p-4 rounded-sm shadow-2xl transform -rotate-3 transition-transform duration-500 group-hover:rotate-0">
+                        <div class="aspect-[4/5] bg-base-dark overflow-hidden mb-3">
+                            <img id="img-growing-1" src="" alt="Growing Up Memory 1" class="w-full h-full object-cover">
+                        </div>
+                        <p class="font-script text-2xl text-base-charcoal text-center">Gentle steps & big dreams</p>
+                    </div>
+                </div>
+
+                <!-- Layered Collage & Quote -->
+                <div class="md:col-span-7 space-y-8">
+                    <div
+                        class="bg-base-charcoal/80 border border-silver-antique/20 p-6 sm:p-8 rounded-2xl relative shadow-xl">
+                        <span class="text-xs uppercase tracking-widest text-copper-mark font-sans">Snapshot
+                            Moment</span>
+                        <p class="font-serif text-2xl sm:text-3xl text-text-ivory mt-2 mb-4 leading-relaxed italic">"You
+                            grew not just in years, but in kindness, grace, and an unwavering light."</p>
+                        <div class="flex items-center gap-4 pt-4 border-t border-silver-antique/10">
+                            <div class="w-16 h-16 rounded-lg overflow-hidden bg-base-dark flex-shrink-0 cursor-pointer"
+                                onclick="openLightbox('frame-growing-2')">
+                                <img id="img-growing-2" src="" alt="Growing Up Memory 2"
+                                    class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-sans text-sm font-medium text-text-ivory">Unforgettable Seasons</h4>
+                                <p class="font-sans text-xs text-silver-antique">Treasured memories archived in film</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Full Bleed Wide Card -->
+                    <div class="relative rounded-2xl overflow-hidden border border-accent-burgundy/40 shadow-2xl group cursor-pointer"
+                        onclick="openLightbox('frame-growing-3')">
+                        <div class="aspect-[16/9] bg-base-dark">
+                            <img id="img-growing-3" src="" alt="Growing Up Memory 3"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-base-dark via-base-dark/30 to-transparent p-6 flex flex-col justify-end">
+                            <span class="text-[10px] uppercase tracking-widest text-copper-mark font-sans">Full
+                                Frame</span>
+                            <h3 class="font-serif text-2xl text-text-ivory">A heart that illuminates every room.</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDITORIAL DIVIDER -->
+        <div class="max-w-4xl mx-auto my-12 px-6 flex items-center gap-4">
+            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-silver-antique/20 to-transparent"></div>
+            <span class="text-copper-mark font-serif italic text-sm">Chapter III</span>
+            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-silver-antique/20 to-transparent"></div>
+        </div>
+
+        <!-- SECTION 4: OLD-TV CRT PLAYBACK -->
+        <section id="playback-section" class="py-20 px-4 max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <span class="text-xs uppercase tracking-widest text-copper-mark font-sans">Retro Media Player</span>
+                <h2 class="font-serif text-4xl sm:text-5xl text-text-ivory mt-1">Some Memories Never Fade</h2>
+                <p class="font-serif italic text-silver-antique text-sm mt-2">Press play on a moment worth smiling about,
+                    May</p>
+            </div>
+
+            <!-- CRT TV Monitor Box -->
+            <div class="crt-container crt-scanlines crt-glow p-4 sm:p-8 relative">
+                <!-- Static burst effect element -->
+                <div id="crt-static" class="static-burst"></div>
+
+                <!-- TV Screen Header controls -->
+                <div
+                    class="flex justify-between items-center text-[10px] font-sans text-copper-mark mb-4 border-b border-white/10 pb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
+                        <span class="tracking-widest">REC · VCR 1998</span>
+                    </div>
+                    <span>CH-04 · Cairo Playback</span>
+                    <span>PLAY &#9654;</span>
+                </div>
+
+                <!-- Screen Content / Video or Animated Slideshow -->
+                <div
+                    class="relative aspect-[4/3] rounded-lg overflow-hidden bg-black flex items-center justify-center border border-white/10">
+                    <video id="crt-screen-video" class="w-full h-full object-cover filter grayscale contrast-125"
+                        autoplay muted loop playsinline preload="auto"></video>
+                    <!-- CRT Corner Overlay -->
+                    <div
+                        class="absolute top-4 left-4 text-xs font-mono text-green-400/80 bg-black/60 px-2 py-1 rounded">
+                        <span>00:04:20</span>
+                    </div>
+
+                    <button id="btn-crt-rewind"
+                        class="absolute bottom-4 right-4 bg-accent-burgundy/80 hover:bg-accent-burgundy text-text-ivory px-3 py-1.5 rounded-full text-xs font-sans tracking-wider border border-copper-mark/40 transition-transform active:scale-95 flex items-center gap-2">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.334 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z">
+                            </path>
+                        </svg>
+                        <span>Rewind Frame</span>
+                    </button>
+                </div>
+
+                <div class="mt-4 flex justify-between items-center text-xs text-silver-antique font-sans">
+                    <span>Vintage Phosphor Edge Glow</span>
+                    <span class="text-copper-mark">Tap Rewind for Static Transition</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDITORIAL DIVIDER -->
+        <div class="max-w-4xl mx-auto my-12 px-6 flex items-center gap-4">
+            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-silver-antique/20 to-transparent"></div>
+            <span class="text-copper-mark font-serif italic text-sm">Chapter IV</span>
+            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-silver-antique/20 to-transparent"></div>
+        </div>
+
+        <!-- SECTION 5: THE BEAUTIFUL PERSON SHE IS TODAY -->
+        <section id="today-section" class="py-20 px-4 max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs uppercase tracking-widest text-copper-mark font-sans">Present Day</span>
+                <h2 class="font-serif text-4xl sm:text-6xl text-text-ivory mt-1">The Most Beautiful Flower I Know</h2>
+                <p class="font-serif italic text-text-aged text-lg mt-2">Still blooming, still the brightest one in the room</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <!-- Oval Locket Frame Accent -->
+                <div class="md:col-span-4 flex flex-col items-center">
+                    <div class="relative group cursor-pointer" onclick="openLightbox('frame-today-oval')">
+                        <div
+                            class="w-64 h-80 oval-frame bg-base-dark overflow-hidden relative p-2 bg-gradient-to-b from-copper-mark/40 to-accent-burgundy/40">
+                            <img id="img-today-oval" src="" alt="Oval Locket Portrait"
+                                class="w-full h-full object-cover rounded-[50%/40%] transition-transform duration-700 group-hover:scale-105">
+                        </div>
+                        <div class="text-center mt-4">
+                            <span class="font-script text-3xl text-copper-mark">Locket of Joy</span>
+                            <p class="font-sans text-xs text-silver-antique mt-1">Held timelessly in gold & silver</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Large Frame -->
+                <div
+                    class="md:col-span-8 bg-base-charcoal p-6 sm:p-8 rounded-2xl border border-accent-burgundy/60 shadow-2xl relative">
+                    <div class="aspect-[16/10] bg-base-dark rounded-xl overflow-hidden mb-6 cursor-pointer group"
+                        onclick="openLightbox('frame-today-main')">
+                        <img id="img-today-main" src="" alt="Today Main Feature"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    </div>
+
+                    <div
+                        class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-t border-silver-antique/10 pt-4">
+                        <div>
+                            <h3 class="font-serif text-2xl text-text-ivory">Radiant, Kind, & Unstoppable</h3>
+                            <p class="font-serif italic text-silver-antique text-sm">"Your smile turns ordinary days
+                                into poetry."</p>
+                        </div>
+                        <span
+                            class="text-xs font-sans text-copper-mark px-3 py-1 rounded-full border border-copper-mark/30">FEATURED
+                            2026</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDITORIAL DIVIDER -->
+        <div class="max-w-4xl mx-auto my-12 px-6 flex items-center gap-4">
+            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-silver-antique/20 to-transparent"></div>
+            <span class="text-copper-mark font-serif italic text-sm">Chapter V</span>
+            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-silver-antique/20 to-transparent"></div>
+        </div>
+
+        <!-- SECTION 6: A LETTER FROM ME (SCRAPBOOK MODE ON DENIM) -->
+        <section id="letter-section" class="py-24 px-4 bg-denim-texture relative border-y border-accent-burgundy/40">
+            <div class="max-w-3xl mx-auto relative">
+
+                <!-- Stitched Burgundy Leather Strip Trim -->
+                <div
+                    class="absolute -top-6 inset-x-8 h-12 leather-stitch-border bg-accent-burgundy rounded-lg z-20 flex items-center justify-center">
+                    <span class="text-xs uppercase tracking-[0.3em] font-sans text-text-ivory font-semibold">A FEW WORDS
+                        JUST FOR YOU</span>
+                </div>
+
+                <!-- Aged Paper Letter Body with Torn Edges -->
+                <div class="bg-aged-paper torn-paper-top torn-paper-bottom p-8 sm:p-14 relative z-10 shadow-2xl mt-4">
+
+                    <!-- 3D Brass Paperclip graphic -->
+                    <div class="absolute -top-4 left-10 w-8 h-16 pointer-events-none z-30">
+                        <svg viewBox="0 0 30 70" fill="none" class="w-full h-full drop-shadow-md">
+                            <path d="M10 20 V50 A10 10 0 0 0 30 50 V15 A12 12 0 0 0 6 15 V45" stroke="#C8743A"
+                                stroke-width="4" stroke-linecap="round" />
+                        </svg>
+                    </div>
+
+                    <!-- Letter Header -->
+                    <div class="text-center mb-8 border-b border-base-charcoal/20 pb-6">
+                        <span
+                            class="font-sans text-xs uppercase tracking-widest text-accent-burgundy font-bold">Confidential
+                            & Sincere</span>
+                        <h2 id="letter-display-title" class="font-script text-5xl sm:text-7xl text-base-charcoal mt-1">A
+                            Letter For MAIOO</h2>
+                    </div>
+
+                    <!-- Letter Content Body -->
+                    <div id="letter-display-body"
+                        class="font-serif text-lg sm:text-xl text-base-charcoal leading-relaxed space-y-6">
+                        <!-- Populated via Javascript -->
+                    </div>
+
+                    <!-- Wax Seal & Signature Footer -->
+                    <div
+                        class="mt-12 pt-8 border-t border-base-charcoal/20 flex flex-col sm:flex-row justify-between items-center gap-6">
+                        <div>
+                            <span class="font-script text-3xl text-accent-burgundy">With endless affection,</span>
+                            <p class="font-sans text-xs uppercase tracking-widest text-base-charcoal/70 mt-1">Always by
+                                your side</p>
+                        </div>
+
+                        <!-- Red Wax Seal Graphic -->
+                        <div
+                            class="w-20 h-20 rounded-full bg-accent-burgundy border-4 border-red-900 shadow-xl flex items-center justify-center relative transform rotate-6">
+                            <div
+                                class="w-14 h-14 rounded-full border-2 border-dashed border-text-aged/40 flex items-center justify-center">
+                                <span class="font-script text-2xl text-text-ivory font-bold">M</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7: A BEAUTIFUL ENDING -->
+        <section id="ending-section" class="py-28 px-4 text-center max-w-4xl mx-auto">
+            <div class="mb-10">
+                <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-2 border-copper-mark/60 p-2 mx-auto mb-8 bg-base-charcoal shadow-2xl overflow-hidden cursor-pointer group"
+                    onclick="openLightbox('frame-ending')">
+                    <img id="img-ending" src="" alt="Final Ending Frame"
+                        class="w-full h-full object-cover rounded-full transition-transform duration-700 group-hover:scale-110">
+                </div>
+
+                <h2 class="font-script text-6xl sm:text-8xl text-text-ivory mb-4">May Your Year Shine as Bright as You Do</h2>
+                <p class="font-serif text-xl sm:text-2xl text-text-aged italic max-w-2xl mx-auto leading-relaxed">"May
+                    your coming year be overflowing with warmth, laughter, serene moments, and dreams coming true."</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- LIGHTBOX / PHOTO VIEWER MODAL -->
+    <div id="lightbox-modal"
+        class="fixed inset-0 z-[120] bg-black/95 backdrop-blur-md hidden flex flex-col justify-between p-4 sm:p-8">
+        <div class="flex justify-between items-center text-text-ivory z-10">
+            <span id="lightbox-counter" class="font-sans text-xs uppercase tracking-widest text-silver-antique">1 /
+                8</span>
+            <button id="close-lightbox"
+                class="text-silver-antique hover:text-text-ivory text-3xl font-light p-2">&times;</button>
+        </div>
+
+        <div class="relative flex-1 flex items-center justify-center my-4 overflow-hidden">
+            <button id="lightbox-prev"
+                class="absolute left-2 sm:left-6 z-20 text-silver-antique hover:text-copper-mark bg-base-charcoal/60 rounded-full p-3 transition-transform active:scale-95">&larr;</button>
+
+            <div class="max-w-4xl max-h-[75vh] p-2 flex flex-col items-center">
+                <img id="lightbox-img" src="" alt="Enlarged View"
+                    class="max-w-full max-h-[65vh] object-contain rounded-lg shadow-2xl border border-white/10">
+                <p id="lightbox-caption" class="font-serif italic text-lg text-text-ivory mt-4 text-center max-w-xl">
+                </p>
+            </div>
+
+            <button id="lightbox-next"
+                class="absolute right-2 sm:left-6 right-2 sm:right-6 z-20 text-silver-antique hover:text-copper-mark bg-base-charcoal/60 rounded-full p-3 transition-transform active:scale-95">&rarr;</button>
+        </div>
+
+        <div class="text-center text-xs font-sans text-silver-antique/60">
+            Press ESC or click anywhere outside to close
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container"
+        class="fixed bottom-20 left-1/2 -translate-x-1/2 z-[130] pointer-events-none flex flex-col items-center gap-2">
+    </div>
+
+    <!-- APPLICATION SCRIPT LOGIC -->
+    <script src="js/photos.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
